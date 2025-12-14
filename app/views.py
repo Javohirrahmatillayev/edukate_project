@@ -1,13 +1,16 @@
 from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, TemplateView, DetailView
 from .models import Course
 
-def course_list(request):
-    courses = Course.objects.all()
-    return render(request, 'course.html', {'courses': courses})
+class CourseListView(ListView):
+    model = Course
+    template_name = 'course.html'
+    context_object_name = 'courses'
 
-def index(request):
-    return render(request, 'index.html')
+class IndexView(TemplateView):
+    template_name = 'index.html'
 
-def course_detail(request, pk):
-    course = get_object_or_404(Course, pk=pk)
-    return render(request, 'detail.html', {'course': course})
+class CourseDetailView(DetailView):
+    model = Course
+    template_name = 'detail.html'
+    context_object_name = 'course'
