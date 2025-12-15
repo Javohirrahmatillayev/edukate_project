@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
+from django.templatetags.static import static
 from django.contrib.contenttypes.fields import GenericForeignKey
 # Create your models here.
 
@@ -40,7 +41,14 @@ class Course(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200,unique=True)
     overview = models.TextField(null=True,blank=True)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    @property
+    def image_url(self):
+        if not self.image:
+            return static('/not_found_image.png')
+        return self.image.url
     
     class Meta:
         ordering = ['-created_at']

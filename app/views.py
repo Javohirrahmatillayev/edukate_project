@@ -12,5 +12,11 @@ class IndexView(TemplateView):
 
 class CourseDetailView(DetailView):
     model = Course
-    template_name = 'detail.html'
+    template_name = 'detail.html' 
     context_object_name = 'course'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related_courses'] = Course.objects.exclude(pk=self.object.pk)[:3]
+        return context
+    
