@@ -1,5 +1,34 @@
 from django.contrib import admin
-from .models import Teacher, Subject, Course, Module, Content, Text, File, Video, Image
+from .models import Teacher, Subject, Course, Module, Text, File, Video, Image
+
+
+class TextInline(admin.StackedInline):
+    model = Text
+    fk_name = 'module'
+    extra = 1
+
+class VideoInline(admin.StackedInline):
+    model = Video
+    fk_name = 'module'
+    extra = 1
+
+class ImageInline(admin.TabularInline):
+    model = Image
+    fk_name = 'module'
+    extra = 1
+
+class FileInline(admin.TabularInline):
+    model = File
+    fk_name = 'module'
+    extra = 1
+
+
+
+class ModuleInline(admin.TabularInline):
+    model = Module
+    extra = 1
+    show_change_link = True  
+
 
 @admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):
@@ -13,49 +42,34 @@ class SubjectAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ('title',)
 
-class ModuleInline(admin.StackedInline):
-    model = Module
-    extra = 1
-
-class ContentInline(admin.StackedInline):
-    model = Content
-    extra = 1
-
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('title', 'owner', 'subject', 'created_at')
     list_filter = ('subject', 'owner')
     search_fields = ('title', 'overview')
     prepopulated_fields = {'slug': ('title',)}
-    inlines = [ModuleInline]
+    inlines = [ModuleInline] # Kurs ichida faqat Modullar ro'yxati chiqadi
 
 @admin.register(Module)
 class ModuleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'course')
-    search_fields = ('title', 'overview')
-    inlines = [ContentInline]
+    list_display = ['title', 'course']
+    list_filter = ['course']
+    search_fields = ['title']
+    inlines = [TextInline, VideoInline, ImageInline, FileInline] 
 
-@admin.register(Content)
-class ContentAdmin(admin.ModelAdmin):
-    list_display = ('module', 'content_type', 'object_id')
-    list_filter = ('content_type',)
 
 @admin.register(Text)
 class TextAdmin(admin.ModelAdmin):
-    list_display = ('title', 'owner', 'created_at')
-    search_fields = ('title', 'content')
-
-@admin.register(File)
-class FileAdmin(admin.ModelAdmin):
-    list_display = ('title', 'owner', 'created_at')
-    search_fields = ('title',)
+    list_display = ('title', 'module', 'owner', 'created_at')
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'owner', 'created_at')
-    search_fields = ('title', 'url')
+    list_display = ('title', 'module', 'owner', 'created_at')
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'owner', 'created_at')
-    search_fields = ('title',)
+    list_display = ('title', 'module', 'owner', 'created_at')
+
+@admin.register(File)
+class FileAdmin(admin.ModelAdmin):
+    list_display = ('title', 'module', 'owner', 'created_at')

@@ -1,4 +1,5 @@
 from django.db import models
+from decimal import Decimal 
 from django.contrib.contenttypes.models import ContentType
 from django.templatetags.static import static
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -41,6 +42,7 @@ class Course(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200,unique=True)
     overview = models.TextField(null=True,blank=True)
+    price = models.DecimalField(max_digits=6, decimal_places= 1)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
@@ -92,7 +94,7 @@ class Content(models.Model):
 
 
 class ItemBase(models.Model):
-    owner = models.ForeignKey(Teacher,on_delete=models.SET_NULL,null=True)
+    owner = models.ForeignKey(Module,on_delete=models.SET_NULL,null=True)
     title = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now=True)
@@ -103,18 +105,23 @@ class ItemBase(models.Model):
 
 
 class Text(ItemBase):
-    content = models.TextField() 
-    
+    module = models.ForeignKey(Module, related_name='texts', on_delete=models.CASCADE, null=True, blank=True)
+    content = models.TextField()
+
 class File(ItemBase):
+    module = models.ForeignKey(Module, related_name='files', on_delete=models.CASCADE, null=True, blank=True)
     file = models.FileField(upload_to='files')
 
-
 class Video(ItemBase):
-    url = models.URLField()
+    module = models.ForeignKey(Module, related_name='videos', on_delete=models.CASCADE, null=True, blank=True)
+    video = models.FileField(upload_to='videos/', verbose_name="Video File")
+    
+    def __str__(self):
+        return self.title
 
 class Image(ItemBase):
+    module = models.ForeignKey(Module, related_name='images', on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to='images')
-
 
 
 
