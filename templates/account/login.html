@@ -1,0 +1,23 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+
+            <h2 class="mb-4">Login</h2>
+            <p class="mb-4">Google akkaunt orqali tizimga kiring</p>
+
+            <a href="{% provider_login_url 'google' %}"
+               class="btn btn-primary btn-lg text-white">
+                <i class="fab fa-google mr-2"></i> Google bilan kirish
+            </a>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

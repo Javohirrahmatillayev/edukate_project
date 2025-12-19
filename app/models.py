@@ -122,6 +122,3 @@ class Video(ItemBase):
 class Image(ItemBase):
     module = models.ForeignKey(Module, related_name='images', on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to='images')
-
-
-

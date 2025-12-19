@@ -1,0 +1,16 @@
+{% extends "base/base.html" %}
+{% load socialaccount %}
+
+{% block content %}
+<h2>Ro'yxatdan o'tish</h2>
+
+<form method="POST" action="{% url 'account_signup' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Ro'yxatdan o'tish</button>
+</form>
+
+<p>yoki</p>
+
+<a href="{% provider_login_url 'google' %}">Google bilan kirish</a>
+{% endblock %}
