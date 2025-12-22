@@ -2,15 +2,125 @@
 {% load socialaccount %}
 
 {% block content %}
-<h2>Ro'yxatdan o'tish</h2>
+<style>
+    /* Container styling */
+    .signup-container {
+        max-width: 400px;
+        margin: 60px auto;
+        padding: 40px 30px;
+        background: linear-gradient(135deg, #ffffff, #f0f4f8);
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        font-family: 'Arial', sans-serif;
+    }
 
-<form method="POST" action="{% url 'account_signup' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Ro'yxatdan o'tish</button>
-</form>
+    /* Header */
+    .signup-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 28px;
+        color: #333;
+        font-weight: bold;
+    }
 
-<p>yoki</p>
+    /* Form fields */
+    .signup-container input[type="text"],
+    .signup-container input[type="email"],
+    .signup-container input[type="password"] {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 18px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 15px;
+        transition: border 0.3s, box-shadow 0.3s;
+    }
 
-<a href="{% provider_login_url 'google' %}">Google bilan kirish</a>
+    .signup-container input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+        outline: none;
+    }
+
+    /* Submit button */
+    .signup-container button {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .signup-container button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    /* "yoki" text */
+    .or-text {
+        text-align: center;
+        margin: 20px 0;
+        font-weight: 500;
+        color: #555;
+    }
+
+    /* Social login button */
+    .social-login {
+        text-align: center;
+    }
+
+    .social-login a {
+        display: inline-block;
+        padding: 12px 25px;
+        background-color: #db4437;
+        color: white;
+        font-weight: bold;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .social-login a:hover {
+        background-color: #c1351d;
+        transform: translateY(-2px);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+        .signup-container {
+            padding: 30px 20px;
+        }
+
+        .signup-container h2 {
+            font-size: 24px;
+        }
+
+        .signup-container button, .social-login a {
+            font-size: 15px;
+            padding: 10px;
+        }
+    }
+</style>
+
+
+<div class="signup-container">
+    <h2>Ro'yxatdan o'tish</h2>
+
+    <form method="POST" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Ro'yxatdan o'tish</button>
+    </form>
+
+    <p class="or-text">yoki</p>
+
+    <div class="social-login">
+        <a href="{% provider_login_url 'google' %}">Google bilan kirish</a>
+    </div>
+</div>
 {% endblock %}
