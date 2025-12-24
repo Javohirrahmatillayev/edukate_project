@@ -1,104 +1,17 @@
+{% extends "base/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>Edukate - Online Education Website Template</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
-
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"> 
-
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
-</head>
-
-<body>
-    <!-- Topbar Start -->
-    <div class="container-fluid bg-dark">
-        <div class="row py-2 px-lg-5">
-            <div class="col-lg-6 text-center text-lg-left mb-2 mb-lg-0">
-                <div class="d-inline-flex align-items-center text-white">
-                    <small><i class="fa fa-phone-alt mr-2"></i>+012 345 6789</small>
-                    <small class="px-3">|</small>
-                    <small><i class="fa fa-envelope mr-2"></i>info@example.com</small>
-                </div>
-            </div>
-            <div class="col-lg-6 text-center text-lg-right">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-white px-2" href="">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a class="text-white px-2" href="">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a class="text-white px-2" href="">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a class="text-white px-2" href="">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a class="text-white pl-2" href="">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Topbar End -->
 
 
-    <!-- Navbar Start -->
-    <div class="container-fluid p-0">
-        <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
-            <a href="index.html" class="navbar-brand ml-lg-3">
-                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Edukate</h1>
-            </a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
-                <div class="navbar-nav mx-auto py-0">
-                    <a href="index.html" class="nav-item nav-link">Home</a>
-                    <a href="about.html" class="nav-item nav-link">About</a>
-                    <a href="{% url 'course_list' %}" class="nav-item nav-link">Courses</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu m-0">
-                            <a href="detail.html" class="dropdown-item active">Course Detail</a>
-                            <a href="feature.html" class="dropdown-item">Our Features</a>
-                            <a href="team.html" class="dropdown-item">Instructors</a>
-                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                        </div>
-                    </div>
-                    <a href="contact.html" class="nav-item nav-link">Contact</a>
-                </div>
-                <a href="" class="btn btn-primary py-2 px-4 d-none d-lg-block">Join Us</a>
-            </div>
-        </nav>
-    </div>
-    <!-- Navbar End -->
+{% block title %}Detail{% endblock %}
 
-
+{% block header %}
+    
     <!-- Header Start -->
     <div class="jumbotron jumbotron-fluid page-header position-relative overlay-bottom" style="margin-bottom: 90px;">
         <div class="container text-center py-5">
             <h1 class="text-white display-1">Course Detail</h1>
             <div class="d-inline-flex text-white mb-5">
-                <p class="m-0 text-uppercase"><a class="text-white" href="">Home</a></p>
+                <p class="m-0 text-uppercase"><a class="text-white" href="{% url 'index' %}">Home</a></p>
                 <i class="fa fa-angle-double-right pt-1 px-3"></i>
                 <p class="m-0 text-uppercase">Course Detail</p>
             </div>
@@ -122,130 +35,200 @@
         </div>
     </div>
     <!-- Header End -->
+    {% endblock %}
+
+{% block content %}
 
 
     <!-- Detail Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
             <div class="row">
+    
+                <!-- LEFT -->
                 <div class="col-lg-8">
-                    <div class="mb-5">
-                        <div class="section-title position-relative mb-5">
-                            <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Kurs Tafsiloti</h6>
-                            <h1 class="display-4">{{ course.title }}</h1>
-                        </div>
-                        
-                        <img class="img-fluid rounded w-100 mb-4" src="{{ course.image_url }}" alt="{{ course.title }}">
-                        <p class="mb-5">{{ course.overview }}</p>
-                
-                        <h3 class="mb-4 text-dark font-weight-bold">Kurs dasturi</h3>
-                        <div class="accordion" id="moduleAccordion">
-                            {% for module in modules %}
-                            <div class="card border-0 mb-3 shadow-sm">
-                                <div class="card-header bg-white border-0 p-0" id="heading{{ module.id }}">
-                                    <h5 class="mb-0">
-                                        <button class="btn btn-block text-left font-weight-bold p-3 d-flex justify-content-between align-items-center" 
-                                                type="button" data-toggle="collapse" data-target="#collapse{{ module.id }}">
-                                            <span><i class="fa fa-book-open mr-2 text-primary"></i> {{ forloop.counter }}-Modul: {{ module.title }}</span>
-                                            <i class="fa fa-chevron-down small text-muted"></i>
-                                        </button>
-                                    </h5>
-                                </div>
-                
-                                <div id="collapse{{ module.id }}" class="collapse {% if forloop.first %}show{% endif %}" data-parent="#moduleAccordion">
-                                    <div class="card-body bg-light">
-                                        <div class="list-group list-group-flush">
-                                            
-                                            {% for text in module.texts.all %}
-                                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent border-bottom" 
-                                               data-toggle="modal" data-target="#textModal{{ text.id }}">
-                                                <span><i class="fa fa-file-alt mr-2 text-info"></i> {{ text.title }}</span>
-                                                <span class="badge badge-primary badge-pill px-3">Read</span>
-                                            </a>
     
-                                            <div class="modal fade" id="textModal{{ text.id }}" tabindex="-1" role="dialog">
-                                                <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title font-weight-bold">{{ text.title }}</h5>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <div class="modal-body p-4">
-                                                            {{ text.content|linebreaks }}
+                    <div class="section-title position-relative mb-4">
+                        <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">
+                            Kurs Tafsiloti
+                        </h6>
+                        <h1 class="display-4">{{ course.title }}</h1>
+                    </div>
+    
+                    <img class="img-fluid rounded w-100 mb-4" src="{{ course.image.url }}" alt="{{ course.title }}">
+                    <p class="mb-5">{{ course.overview }}</p>
+    
+                    <h3 class="mb-4 font-weight-bold">Kurs dasturi</h3>
+    
+                    <div class="accordion" id="moduleAccordion">
+    
+                        {% for module in modules %}
+                        <div class="card border-0 mb-3 shadow-sm">
+    
+                            <div class="card-header bg-white border-0 p-0">
+                                <button class="btn btn-block text-left font-weight-bold p-3 d-flex justify-content-between align-items-center"
+                                        data-toggle="collapse"
+                                        data-target="#collapse{{ module.id }}">
+                                    <span>
+                                        <i class="fa fa-book-open text-primary mr-2"></i>
+                                        {{ forloop.counter }}-Modul: {{ module.title }}
+                                    </span>
+                                    <i class="fa fa-chevron-down text-muted"></i>
+                                </button>
+                            </div>
+    
+                            <div id="collapse{{ module.id }}"
+                                 class="collapse {% if forloop.first %}show{% endif %}"
+                                 data-parent="#moduleAccordion">
+    
+                                <div class="card-body bg-light">
+                                    <div class="list-group list-group-flush">
+    
+                                        {# ---------- TEXT ---------- #}
+                                        {% for text in module.texts.all %}
+                                        {% if user.is_authenticated %}
+                                        <a href="#"
+                                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent"
+                                           data-toggle="modal"
+                                           data-target="#textModal{{ text.id }}">
+                                            <span>
+                                                <i class="fa fa-file-alt text-info mr-2"></i>
+                                                {{ text.title }}
+                                            </span>
+                                            <span class="badge badge-primary">Read</span>
+                                        </a>
+                                        {% else %}
+                                        <a href="#"
+                                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent"
+                                           data-toggle="modal"
+                                           data-target="#authModal">
+                                            <span>
+                                                <i class="fa fa-lock text-warning mr-2"></i>
+                                                {{ text.title }}
+                                            </span>
+                                            <span class="badge badge-secondary">Locked</span>
+                                        </a>
+                                        {% endif %}
+                                        {% endfor %}
+    
+                                        {# ---------- VIDEO ---------- #}
+                                        {% for video in module.videos.all %}
+                                        {% if user.is_authenticated %}
+                                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent border-bottom" 
+                                           data-toggle="modal" data-target="#videoModal{{ video.id }}">
+                                            <span><i class="fa fa-play-circle mr-2 text-danger"></i> {{ video.title }}</span>
+                                            <span class="badge badge-danger badge-pill px-3">View</span>
+                                        </a>
+
+                                        <div class="modal fade" id="videoModal{{ video.id }}" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                <div class="modal-content bg-dark border-0">
+                                                    <div class="modal-header border-0 pb-0">
+                                                        <h5 class="modal-title text-white font-weight-bold">{{ video.title }}</h5>
+                                                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body p-0 mt-2">
+                                                        <div class="embed-responsive embed-responsive-16by9">
+                                                            <video class="embed-responsive-item" controls controlsList="nodownload">
+                                                                <source src="{{ video.video.url }}" type="video/mp4">
+                                                                Sizning brauzeringiz videoni qo'llab-quvvatlamaydi.
+                                                            </video>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            {% endfor %}
-                
-                                            {% for video in module.videos.all %}
-                                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent border-bottom" 
-                                               data-toggle="modal" data-target="#videoModal{{ video.id }}">
-                                                <span><i class="fa fa-play-circle mr-2 text-danger"></i> {{ video.title }}</span>
-                                                <span class="badge badge-danger badge-pill px-3">View</span>
-                                            </a>
-    
-                                            <div class="modal fade" id="videoModal{{ video.id }}" tabindex="-1" role="dialog">
-                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                                    <div class="modal-content bg-dark border-0">
-                                                        <div class="modal-header border-0 pb-0">
-                                                            <h5 class="modal-title text-white font-weight-bold">{{ video.title }}</h5>
-                                                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body p-0 mt-2">
-                                                            <div class="embed-responsive embed-responsive-16by9">
-                                                                <video class="embed-responsive-item" controls controlsList="nodownload">
-                                                                    <source src="{{ video.video.url }}" type="video/mp4">
-                                                                    Sizning brauzeringiz videoni qo'llab-quvvatlamaydi.
-                                                                </video>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {% endfor %}
-                
-                                            {% for img in module.images.all %}
-                                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent border-bottom" 
-                                               data-toggle="modal" data-target="#imgModal{{ img.id }}">
-                                                <span><i class="fa fa-image mr-2 text-primary"></i> {{ img.title }}</span>
-                                                <span class="badge badge-secondary badge-pill px-3">View</span>
-                                            </a>
-    
-                                            <div class="modal fade" id="imgModal{{ img.id }}" tabindex="-1" role="dialog">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">{{ img.title }}</h5>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <div class="modal-body text-center p-2">
-                                                            <img src="{{ img.image.url }}" class="img-fluid rounded">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {% endfor %}
-                
-                                            {% for f in module.files.all %}
-                                            <a href="{{ f.file.url }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent" download>
-                                                <span><i class="fa fa-file-download mr-2 text-success"></i> {{ f.title }}</span>
-                                                <span class="badge badge-success badge-pill px-3">Yuklash</span>
-                                            </a>
-                                            {% endfor %}
                                         </div>
+                                        {% else %}
+                                        <a href="#"
+                                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent"
+                                           data-toggle="modal"
+                                           data-target="#authModal">
+                                            <span>
+                                                <i class="fa fa-lock text-warning mr-2"></i>
+                                                {{ video.title }}
+                                            </span>
+                                            <span class="badge badge-secondary">Locked</span>
+                                        </a>
+                                        {% endif %}
+                                        {% endfor %}
+
+
+                                        {% for img in module.images.all %}
+                                        {% if user.is_authenticated %}
+                                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent border-bottom" 
+                                        data-toggle="modal" data-target="#imgModal{{ img.id }}">
+                                            <span><i class="fa fa-image mr-2 text-primary"></i> {{ img.title }}</span>
+                                            <span class="badge badge-secondary badge-pill px-3">View</span>
+                                        </a>
+
+                                        <div class="modal fade" id="imgModal{{ img.id }}" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">{{ img.title }}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body text-center p-2">
+                                                        <img src="{{ img.image.url }}" class="img-fluid rounded">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <a href="#"
+                                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent"
+                                           data-toggle="modal"
+                                           data-target="#authModal">
+                                            <span>
+                                                <i class="fa fa-lock text-warning mr-2"></i>
+                                                {{ img.title }}
+                                            </span>
+                                            <span class="badge badge-secondary">Locked</span>
+                                        </a>
+                                        {% endif %}
+                                        {% endfor %}
+
+    
+                                        {# ---------- FILE ---------- #}
+                                        {% for f in module.files.all %}
+                                        {% if user.is_authenticated %}
+                                        <a href="{{ f.file.url }}"
+                                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent"
+                                           download>
+                                            <span>
+                                                <i class="fa fa-file-download text-success mr-2"></i>
+                                                {{ f.title }}
+                                            </span>
+                                            <span class="badge badge-success">Yuklash</span>
+                                        </a>
+                                        {% else %}
+                                        <a href="#"
+                                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent"
+                                           data-toggle="modal"
+                                           data-target="#authModal">
+                                            <span>
+                                                <i class="fa fa-lock text-warning mr-2"></i>
+                                                {{ f.title }}
+                                            </span>
+                                            <span class="badge badge-secondary">Locked</span>
+                                        </a>
+                                        {% endif %}
+                                        {% endfor %}
+    
                                     </div>
                                 </div>
                             </div>
-                            {% empty %}
-                                <p class="text-center text-muted">Hozircha modullar qo'shilmagan.</p>
-                            {% endfor %}
                         </div>
+                        {% empty %}
+                        <p class="text-muted text-center">Hozircha modullar yo'q</p>
+                        {% endfor %}
+    
                     </div>
-                </div> 
-                
+                </div>
+    
+                <!-- RIGHT -->
                 <div class="col-lg-4 mt-5 mt-lg-0">
                     <div class="sticky-top" style="top: 25px;">
                         <div class="bg-primary mb-5 py-3 rounded shadow-sm">
@@ -273,7 +256,27 @@
                             <p class="small text-muted">Kurs bo'yicha savollaringiz bo'lsa, mutaxassisimizga murojaat qiling.</p>
                             <a href="#" class="btn btn-outline-primary btn-sm btn-block">Bog'lanish</a>
                         </div> -->
-                    </div>
+                    </div>    
+            </div>
+        </div>
+    </div>
+    
+    {# ================= AUTH MODAL ================= #}
+    <div class="modal fade" id="authModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-4">
+                <i class="fa fa-lock fa-3x text-warning mb-3"></i>
+                <h4 class="font-weight-bold">Access Denied</h4>
+                <p class="text-muted">
+                    Sorry, you are not allowed to access this content
+                </p>
+                <div class="d-flex justify-content-center mt-3">
+                    <a href="{% url 'account_login' %}" class="btn btn-primary mr-2">
+                        Sign In
+                    </a>
+                    <a href="{% url 'account_signup' %}" class="btn btn-outline-primary">
+                        Register
+                    </a>
                 </div>
             </div>
         </div>
@@ -299,97 +302,4 @@
         });
     </script>
     <!-- Detail End -->
-
-
-    <!-- Footer Start -->
-    <div class="container-fluid position-relative overlay-top bg-dark text-white-50 py-5" style="margin-top: 90px;">
-        <div class="container mt-5 pt-5">
-            <div class="row">
-                <div class="col-md-6 mb-5">
-                    <a href="index.html" class="navbar-brand">
-                        <h1 class="mt-n2 text-uppercase text-white"><i class="fa fa-book-reader mr-3"></i>Edukate</h1>
-                    </a>
-                    <p class="m-0">We offer high-quality online courses created for modern learners. Whether you’re a beginner or looking to advance your career, our lessons are clear, structured, and practical. Learn from experts, practice real skills, and grow with confidence. Your journey to success starts here.</p>
-                </div>
-                <div class="col-md-6 mb-5">
-                    <h3 class="text-white mb-4">Newsletter</h3>
-                    <div class="w-100">
-                        <div class="input-group">
-                            <input type="text" class="form-control border-light" style="padding: 30px;" placeholder="Your Email Address">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary px-4">Sign Up</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 mb-5">
-                    <h3 class="text-white mb-4">Get In Touch</h3>
-                    <p><i class="fa fa-map-marker-alt mr-2"></i>123 Street, New York, USA</p>
-                    <p><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
-                    <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
-                    <div class="d-flex justify-content-start mt-4">
-                        <a class="text-white mr-4" href="#"><i class="fab fa-2x fa-telegram-plane"></i></a>
-                        <a class="text-white mr-4" href="#"><i class="fab fa-2x fa-facebook-f"></i></a>
-                        <a class="text-white mr-4" href="#"><i class="fab fa-2x fa-linkedin-in"></i></a>
-                        <a class="text-white" href="https://www.instagram.com/dx833cc?utm_source=qr"><i class="fab fa-2x fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <h3 class="text-white mb-4">Our Courses</h3>
-                    <div class="d-flex flex-column justify-content-start">
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Web Design</a>
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Apps Design</a>
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Marketing</a>
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Research</a>
-                        <a class="text-white-50" href="#"><i class="fa fa-angle-right mr-2"></i>SEO</a>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <h3 class="text-white mb-4">Quick Links</h3>
-                    <div class="d-flex flex-column justify-content-start">
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Privacy Policy</a>
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Terms & Condition</a>
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Regular FAQs</a>
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Help & Support</a>
-                        <a class="text-white-50" href="#"><i class="fa fa-angle-right mr-2"></i>Contact</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid bg-dark text-white-50 border-top py-4" style="border-color: rgba(256, 256, 256, .1) !important;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-left mb-3 mb-md-0">
-                    <p class="m-0">Copyright &copy; <a class="text-white" href="#">Your Site Name</a>. All Rights Reserved.
-                    </p>
-                </div>
-                <div class="col-md-6 text-center text-md-right">
-                    <p class="m-0">Designed by <a class="text-white" href="https://htmlcodex.com">HTML Codex</a> Distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a></a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
-
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary rounded-0 btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
-</body>
-
-</html>
+    {% endblock %}

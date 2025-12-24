@@ -39,31 +39,26 @@
         time: 2000
     });
 
-
+    var courseCount = $(".courses-carousel .courses-item").length;
     // Courses carousel
     $(".courses-carousel").owlCarousel({
-        autoplay: true,
-        smartSpeed: 1500,
-        loop: true,
+        autoplay: courseCount > 3,
+        loop: courseCount > 3,
+        smartSpeed: 1200,
+        margin: 20,
         dots: false,
-        nav : false,
+        nav: courseCount > 3,
+        navText: [
+            "<i class='fa fa-angle-left'></i>",
+            "<i class='fa fa-angle-right'></i>"
+        ],
         responsive: {
-            0:{
-                items:1
-            },
-            576:{
-                items:2
-            },
-            768:{
-                items:3
-            },
-            992:{
-                items:4
-            }
+            0:{ items:1 },
+            576:{ items:2 },
+            992:{ items:3 }
         }
     });
-
-
+    
     // Team carousel
     $(".team-carousel").owlCarousel({
         autoplay: true,

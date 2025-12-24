@@ -9962,45 +9962,106 @@ h6,
   background: #2878EB;
 }
 
-/* ===== LOGIN PAGE FIX ===== */
 
-body {
-  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+/* Course card */
+.courses-item {
+  height: 420px;               /* HAMMASI BIR XIL */
+  overflow: hidden;
+  position: relative;
 }
 
-.login-container {
-  min-height: 100vh !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
+/* Image wrapper */
+.course-image-wrapper {
+  width: 100%;
+  height: 100%;
 }
 
-.login-form {
-  background: #fff !important;
-  width: 380px !important;
-  padding: 35px !important;
-  border-radius: 12px !important;
-  box-shadow: 0 15px 40px rgba(0,0,0,.2) !important;
-  text-align: center !important;
+/* Image itself */
+.course-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;           /* ⭐ MUAMMONI HAL QILADI */
+  display: block;
 }
 
-/* INPUT */
-.login-form .input-group {
-  margin-bottom: 18px !important;
+/* Overlay text */
+.courses-item .courses-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  background: linear-gradient(
+      to bottom,
+      rgba(18, 15, 45, 0),
+      rgba(18, 15, 45, 0.95)
+  );
+  z-index: 2;
 }
 
-.login-form input {
-  width: 100% !important;
-  padding: 12px 12px 12px 42px !important;
-  border-radius: 8px !important;
+
+.teacher-card {
+  background: #fff;
+  border-radius: 12px;
+  padding-top: 60px;
+  transition: 0.4s;
+  position: relative;
 }
 
-/* BUTTON */
-.login-btn {
-  width: 100% !important;
-  padding: 12px !important;
-  border-radius: 8px !important;
-  background: #667eea !important;
-  color: #fff !important;
-  border: none !important;
+.teacher-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.12);
 }
+
+.teacher-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #1da1f2;
+  position: absolute;
+  top: -55px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+}
+
+.teacher-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.teacher-body {
+  padding: 20px;
+}
+
+.teacher-name {
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.teacher-expertise {
+  color: #1da1f2;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.teacher-bio {
+  font-size: 14px;
+  color: #666;
+  margin: 15px 0;
+}
+
+.teacher-exp {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+.teacher-exp i {
+  color: #1da1f2;
+  margin-right: 5px;
+}
+

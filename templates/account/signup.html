@@ -1,126 +1,256 @@
-{% extends "base/base.html" %}
+{% load static %}
 {% load socialaccount %}
 
 {% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-    /* Container styling */
-    .signup-container {
-        max-width: 400px;
-        margin: 60px auto;
-        padding: 40px 30px;
-        background: linear-gradient(135deg, #ffffff, #f0f4f8);
-        border-radius: 15px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        font-family: 'Arial', sans-serif;
+    :root {
+        --primary: #2563eb;
+        --primary-hover: #1d4ed8;
+        --bg-body: #f8fafc;
+        --card-bg: #ffffff;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
     }
 
-    /* Header */
-    .signup-container h2 {
-        text-align: center;
-        margin-bottom: 25px;
-        font-size: 28px;
-        color: #333;
-        font-weight: bold;
+    body {
+        background-color: var(--bg-body);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-image: radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.03) 0px, transparent 50%),
+                          radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.03) 0px, transparent 50%);
     }
 
-    /* Form fields */
-    .signup-container input[type="text"],
-    .signup-container input[type="email"],
-    .signup-container input[type="password"] {
+    .edukate-card {
         width: 100%;
-        padding: 12px 15px;
-        margin-bottom: 18px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        font-size: 15px;
-        transition: border 0.3s, box-shadow 0.3s;
+        max-width: 850px;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 50px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        animation: fadeIn 0.6s ease-out;
     }
 
-    .signup-container input:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand-header h2 { font-size: 30px; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+    .brand-header h2 span { color: var(--primary); }
+    .brand-header p { color: var(--text-muted); font-size: 15px; margin-top: 5px; }
+
+    /* Form Layout - 2 ustunli */
+    form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px 40px;
+    }
+
+    form p { margin: 0 !important; display: flex; flex-direction: column; position: relative; }
+    
+    .helptext, ul:not(.errorlist) { display: none !important; }
+
+    label { font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text-main); }
+    
+    /* Input va Select umumiy stili */
+    input, select {
+        width: 100%;
+        background: #ffffff !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 12px;
+        padding: 12px 16px !important;
+        color: var(--text-main) !important;
+        font-size: 14px !important;
         outline: none;
+        box-sizing: border-box;
+        transition: all 0.2s;
+        height: 48px; /* Barcha maydonlar bir xil balandlikda */
     }
 
-    /* Submit button */
-    .signup-container button {
-        width: 100%;
-        padding: 12px;
-        background-color: #007bff;
+    /* Gender (Select) uchun maxsus o'qcha */
+    select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 16px center !important;
+        background-size: 16px !important;
+        padding-right: 40px !important;
+    }
+
+    input:focus, select:focus { 
+        border-color: var(--primary) !important; 
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.05); 
+    }
+
+    /* Password Ko'zchasi */
+    .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 38px;
+        background: none;
         border: none;
-        border-radius: 10px;
-        color: #fff;
-        font-size: 16px;
-        font-weight: bold;
         cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
+        color: var(--text-muted);
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        z-index: 10;
     }
 
-    .signup-container button:hover {
-        background-color: #0056b3;
-        transform: translateY(-2px);
-    }
-
-    /* "yoki" text */
-    .or-text {
-        text-align: center;
-        margin: 20px 0;
-        font-weight: 500;
-        color: #555;
-    }
-
-    /* Social login button */
-    .social-login {
-        text-align: center;
-    }
-
-    .social-login a {
-        display: inline-block;
-        padding: 12px 25px;
-        background-color: #db4437;
+    .btn-submit {
+        grid-column: span 2;
+        background: var(--primary);
         color: white;
-        font-weight: bold;
-        border-radius: 10px;
-        text-decoration: none;
-        transition: background-color 0.3s, transform 0.2s;
+        border: none;
+        padding: 16px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+        margin-top: 10px;
     }
 
-    .social-login a:hover {
-        background-color: #c1351d;
+    .btn-submit:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+    /* Social Login */
+    .social-section {
+        grid-column: span 2;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 12px;
+    }
+
+    .divider::before, .divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .divider:not(:empty)::before { margin-right: .5em; }
+    .divider:not(:empty)::after { margin-left: .5em; }
+
+    .social-buttons {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .social-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: white;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .social-btn:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
         transform: translateY(-2px);
     }
 
-    /* Responsive adjustments */
-    @media (max-width: 480px) {
-        .signup-container {
-            padding: 30px 20px;
-        }
+    .social-btn svg { width: 20px; height: 20px; }
 
-        .signup-container h2 {
-            font-size: 24px;
-        }
+    .card-footer { text-align: center; font-size: 14px; color: var(--text-muted); }
+    .card-footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
 
-        .signup-container button, .social-login a {
-            font-size: 15px;
-            padding: 10px;
-        }
+    .errorlist {
+        grid-column: span 2;
+        color: #ef4444;
+        font-size: 13px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        form { grid-template-columns: 1fr; }
+        .btn-submit { grid-column: span 1; }
+        .social-buttons { grid-template-columns: 1fr; }
+        .edukate-card { padding: 30px 20px; }
     }
 </style>
 
+<div class="edukate-card">
+    <div class="brand-header">
+        <h2>Edu<span>kate</span></h2>
+        <p>Empower your future. Create an account.</p>
+    </div>
 
-<div class="signup-container">
-    <h2>Ro'yxatdan o'tish</h2>
-
-    <form method="POST" action="{% url 'account_signup' %}">
+    <form method="POST">
         {% csrf_token %}
+        
         {{ form.as_p }}
-        <button type="submit">Ro'yxatdan o'tish</button>
+        
+        <button type="submit" class="btn-submit">Create Account</button>
+
+        <div class="social-section">
+            <div class="divider">Or register with</div>
+            
+            <div class="social-buttons">
+                <a href="{% provider_login_url 'google' %}" class="social-btn" title="Google">
+                    <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24s.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path></svg>
+                </a>
+
+                <a href="{% provider_login_url 'github' %}" class="social-btn" title="GitHub">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                </a>
+
+                <a href="{% provider_login_url 'twitter' %}" class="social-btn" title="X">
+                    <svg viewBox="0 0 24 24" fill="#000000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                </a>
+            </div>
+        </div>
     </form>
 
-    <p class="or-text">yoki</p>
-
-    <div class="social-login">
-        <a href="{% provider_login_url 'google' %}">Google bilan kirish</a>
+    <div class="card-footer">
+        Already have an account? <a href="{% url 'account_login' %}">Log in here</a>
     </div>
 </div>
+
+<script>
+    // Password toggler JavaScript
+    document.querySelectorAll('input[type="password"]').forEach(input => {
+        const toggleBtn = document.createElement('button');
+        toggleBtn.type = 'button';
+        toggleBtn.className = 'password-toggle';
+        toggleBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        `;
+
+        input.parentElement.appendChild(toggleBtn);
+
+        toggleBtn.addEventListener('click', () => {
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            toggleBtn.innerHTML = isPassword 
+                ? `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`
+                : `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+        });
+    });
+</script>
 {% endblock %}

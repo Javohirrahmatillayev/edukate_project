@@ -3,7 +3,61 @@ from decimal import Decimal
 from django.contrib.contenttypes.models import ContentType
 from django.templatetags.static import static
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.core.exceptions import ValidationError
+from datetime import date
 # Create your models here.
+
+def validate_age_7(birth_date):
+    today = date.today()
+    age = today.year - birth_date.year - (
+        (today.month, today.day) < (birth_date.month, birth_date.day)
+    )
+    if age < 7:
+        raise ValidationError("Age can not be younger than 7")
+
+class CustomUserManager(BaseUserManager): 
+    use_in_migrations = True
+    
+    def create_user(self, email, password = None, **extra_fields):
+        if not email:
+            raise ValueError('The Email must be set')
+        
+        email= self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+    
+    def create_superuser(self, email, password= None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+        
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+        
+        return self.create_user(email, password, **extra_fields)
+
+class CustomUser(AbstractUser):
+    # username = None
+    email = models.EmailField(max_length=100, unique=True)
+    full_name = models.CharField(max_length=64)
+    birth_date = models.DateField(validators=[validate_age_7], null=True, blank=True)
+    GENDER_CHOICES = (('male', 'Male'), ('female', 'Female'),)
+    gender = models.CharField(max_length=7, choices=GENDER_CHOICES)
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
+    
+    def display_name(self):
+       return self.full_name or self.username
+
+    
 
 
 class Teacher(models.Model):
@@ -43,14 +97,14 @@ class Course(models.Model):
     slug = models.SlugField(max_length=200,unique=True)
     overview = models.TextField(null=True,blank=True)
     price = models.DecimalField(max_digits=6, decimal_places= 1)
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    image = models.ImageField(upload_to='courses/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
-    @property
-    def image_url(self):
-        if not self.image:
-            return static('/not_found_image.png')
-        return self.image.url
+    # @property
+    # def image_url(self):
+    #     if not self.image:
+    #         return static('/not_found_image.png')
+    #     return self.image.url
     
     class Meta:
         ordering = ['-created_at']
@@ -97,7 +151,6 @@ class ItemBase(models.Model):
     owner = models.ForeignKey(Module,on_delete=models.SET_NULL,null=True)
     title = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_at = models.DateTimeField(auto_now=True)
 
 
     class Meta:

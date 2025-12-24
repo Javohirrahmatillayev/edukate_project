@@ -18,6 +18,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'lib/owlcarousel/assets/owl.theme.default.min.css' %}">
 
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
@@ -29,18 +30,18 @@
         <div class="row py-2 px-lg-5">
             <div class="col-lg-6 text-center text-lg-left mb-2 mb-lg-0">
                 <div class="d-inline-flex align-items-center text-white">
-                    <small><i class="fa fa-phone-alt mr-2"></i>+012 345 6789</small>
+                    <small><i class="fa fa-phone-alt mr-2"></i>+998 20 025 72 57</small>
                     <small class="px-3">|</small>
-                    <small><i class="fa fa-envelope mr-2"></i>info@example.com</small>
+                    <small><i class="fa fa-envelope mr-2"></i>deozey7@gmail.com</small>
                 </div>
             </div>
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
-                    <a class="text-white px-2" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="text-white px-2" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="text-white px-2" href=""><i class="fab fa-linkedin-in"></i></a>
-                    <a class="text-white px-2" href=""><i class="fab fa-instagram"></i></a>
-                    <a class="text-white pl-2" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="text-white px-2" href="https://www.facebook.com/profile.php?id=100089378271469"><i class="fab fa-facebook-f"></i></a>
+                    <a class="text-white px-2" href="https://x.com/dx833cc"><i class="fab fa-twitter"></i></a>
+                    <a class="text-white px-2" href="https://t.me/eighthundredthirtythree"><i class="fab fa-telegram"></i></a>
+                    <a class="text-white px-2" href="https://www.instagram.com/dx833cc/"><i class="fab fa-instagram"></i></a>
+                    <a class="text-white px-2" href="https://open.spotify.com/user/317omatvrq5tmpf4mmeq7xjdixni?si=55127392f9194776"><i class="fab fa-spotify"></i></a>
                 </div>
             </div>
         </div>
@@ -56,15 +57,9 @@
             <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mx-auto py-0">
                     <a href="{% url 'index' %}" class="nav-item nav-link">Home</a>
-                    <a href="#" class="nav-item nav-link">About</a>
+                    <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
                     <a href="{% url 'course_list' %}" class="nav-item nav-link">Courses</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu m-0">
-                            <a href="#" class="dropdown-item">Course Detail</a>
-                            <a href="#" class="dropdown-item">Our Features</a>
-                        </div>
-                    </div>
+                    <a href="{% url 'teachers_list' %}" class="nav-item nav-link">Teachers</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Subjects</a>
                         <div class="dropdown-menu m-0">
@@ -77,8 +72,8 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <a href="#" class="nav-item nav-link">Contact</a>
-                </div>
+                    <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+                </div> 
                 <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
                     <div class="navbar-nav mx-auto py-0">
                         </div>
@@ -87,7 +82,7 @@
                         {% if user.is_authenticated %}
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-user mr-1"></i> {{ user.username }}
+                                    <i class="fa fa-user mr-1"></i> {{ user.display_name }}
                                 </a>
                                 <div class="dropdown-menu m-0">
                                     <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
@@ -118,7 +113,9 @@
                     <a href="{% url 'index' %}" class="navbar-brand">
                         <h1 class="mt-n2 text-uppercase text-white"><i class="fa fa-book-reader mr-3"></i>Edukate</h1>
                     </a>
-                    <p class="m-0">Accusam nonumy clita sed rebum kasd eirmod elitr. Ipsum ea lorem at et diam est, tempor rebum ipsum sit ea tempor stet et consetetur dolores.</p>
+                    <p class="m-0">Learn smarter, not harder.
+                        Edukate brings high-quality online courses to your screen.
+                        Study anytime, anywhere, and grow your skills for the future.</p>
                 </div>
                 <div class="col-md-6 mb-5">
                     <h3 class="text-white mb-4">Newsletter</h3>
@@ -137,10 +134,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-left mb-3 mb-md-0">
-                        <p class="m-0">Copyright &copy; <a class="text-white" href="#">Your Site Name</a>. All Rights Reserved.</p>
+                        <p class="m-0">Copyright &copy; <a class="text-white" href="{% url 'index' %}">Edukate</a>. All Rights Reserved.</p>
                     </div>
                     <div class="col-md-6 text-center text-md-right">
-                        <p class="m-0">Designed by <a class="text-white" href="https://htmlcodex.com">HTML Codex</a></p>
+                        <p class="m-0">Designed by <a class="text-white" href="https://t.me/eighthundredthirtythree">Javohir Rahmatillayev</a></p>
                     </div>
                 </div>
             </div>
@@ -154,6 +151,7 @@
     <script src="{% static 'lib/easing/easing.min.js' %}"></script>
     <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
     <script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
+    <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
 
     <script src="{% static 'js/main.js' %}"></script>

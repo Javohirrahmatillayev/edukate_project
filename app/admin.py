@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Teacher, Subject, Course, Module, Text, File, Video, Image
+from .models import Teacher, Subject, Course, Module, Text, File, Video, Image, CustomUser
+from django.contrib.auth.admin import UserAdmin
+
 
 
 class TextInline(admin.StackedInline):
@@ -50,26 +52,72 @@ class CourseAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     inlines = [ModuleInline] # Kurs ichida faqat Modullar ro'yxati chiqadi
 
-@admin.register(Module)
-class ModuleAdmin(admin.ModelAdmin):
-    list_display = ['title', 'course']
-    list_filter = ['course']
-    search_fields = ['title']
-    inlines = [TextInline, VideoInline, ImageInline, FileInline] 
 
 
 @admin.register(Text)
 class TextAdmin(admin.ModelAdmin):
-    list_display = ('title', 'module', 'owner', 'created_at')
+    list_display = ('title', 'owner', 'created_at')
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'module', 'owner', 'created_at')
+    list_display = ('title', 'owner', 'created_at')
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'module', 'owner', 'created_at')
+    list_display = ('title', 'owner', 'created_at')
 
 @admin.register(File)
 class FileAdmin(admin.ModelAdmin):
-    list_display = ('title', 'module', 'owner', 'created_at')
+    list_display = ('title',  'owner', 'created_at')
+    
+@admin.register(CustomUser)
+class CustomUserAdmin(UserAdmin):
+    model = CustomUser
+
+    # Admin list page
+    list_display = (
+        'email',
+        'full_name',
+        'gender',
+        'birth_date',
+        'is_staff',
+        'is_active',
+    )
+    list_filter = ('is_staff', 'is_active', 'gender')
+
+    # Admin detail page (edit)
+    fieldsets = (
+        (None, {
+            'fields': ('email', 'password')
+        }),
+        ('Personal info', {
+            'fields': ('full_name', 'gender', 'birth_date', 'age')
+        }),
+        ('Permissions', {
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')
+        }),
+        ('Important dates', {
+            'fields': ('last_login', 'date_joined')
+        }),
+    )
+
+    # Create user in admin
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': (
+                'email',
+                'full_name',
+                'gender',
+                'birth_date',
+                'password1',
+                'password2',
+                'is_staff',
+                'is_active',
+            ),
+        }),
+    )
+
+    # Search & ordering
+    search_fields = ('email', 'full_name')
+    ordering = ('email',)
